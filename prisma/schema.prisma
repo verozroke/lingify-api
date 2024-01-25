@@ -1,0 +1,179 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String       @unique @default(uuid())
+  email          String       @unique
+  hashedPassword String
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  avatarId       String       @unique
+  bannerId       String       @unique
+  bio            String?
+  countryId      String       @unique
+  fullName       String?
+  nickname       String       @unique
+  cardSets       CardSet[]    @relation("CardSetToUser")
+  comments       Comment[]    @relation("CommentToUser")
+  communities    Community[]  @relation("CommunityToUser")
+  courses        Course[]     @relation("CourseToUser")
+  likes          Like[]       @relation("LikeToUser")
+  posts          Post[]       @relation("PostToUser")
+  subscribers    Subscriber[] @relation("SubscriberToUser")
+  avatar         Image?        @relation("UserAvatarToImage", fields: [avatarId], references: [id])
+  banner         Image?        @relation("UserBannerToImage", fields: [bannerId], references: [id])
+  country        Country?      @relation("UserToCountry", fields: [countryId], references: [id])
+}
+
+model Course {
+  id          String   @unique @default(uuid())
+  name        String   @unique
+  description String
+  avatarId    String   @unique
+  userId      String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  avatar      Image    @relation("CourseAvatarToImage", fields: [avatarId], references: [id])
+  user        User     @relation("CourseToUser", fields: [userId], references: [id])
+  lessons     Lesson[] @relation("LessonToUser")
+}
+
+model Lesson {
+  id          String     @unique @default(uuid())
+  name        String
+  description String
+  keyWords    String
+  videoUrl    String?
+  courseId    String
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  course      Course     @relation("LessonToUser", fields: [courseId], references: [id])
+  materials   Material[] @relation("MaterialToLesson")
+}
+
+model Material {
+  id        String   @unique @default(uuid())
+  name      String
+  url       String
+  lessonId  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  lesson    Lesson   @relation("MaterialToLesson", fields: [lessonId], references: [id])
+}
+
+model CardSet {
+  id          String   @unique @default(uuid())
+  name        String
+  description String?
+  ownerId     String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  cards       Card[]   @relation("CardToCardSet")
+  owner       User     @relation("CardSetToUser", fields: [ownerId], references: [id])
+}
+
+model Card {
+  id         String   @unique @default(uuid())
+  word       String
+  definition String
+  cardSetId  String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  cardSet    CardSet  @relation("CardToCardSet", fields: [cardSetId], references: [id])
+}
+
+model Country {
+  id        String     @unique @default(uuid())
+  name      String
+  code      String
+  languages String
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  community Community? @relation("CommunityToCountry")
+  user      User?      @relation("UserToCountry")
+}
+
+model Image {
+  id              String     @unique @default(uuid())
+  url             String
+  postId          String?    @unique
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+  communityAvatar Community? @relation("CommunityAvatarToImage")
+  communityBanner Community? @relation("CommunityBannerToImage")
+  courseAvatar    Course?    @relation("CourseAvatarToImage")
+  post            Post?      @relation("ImageToPost", fields: [postId], references: [id])
+  userAvatar      User?      @relation("UserAvatarToImage")
+  userBanner      User?      @relation("UserBannerToImage")
+}
+
+model Community {
+  id          String       @unique @default(uuid())
+  name        String
+  language    String
+  description String?
+  ownerId     String
+  avatarId    String       @unique
+  bannerId    String       @unique
+  countryId   String       @unique
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  avatar      Image        @relation("CommunityAvatarToImage", fields: [avatarId], references: [id])
+  banner      Image        @relation("CommunityBannerToImage", fields: [bannerId], references: [id])
+  country     Country      @relation("CommunityToCountry", fields: [countryId], references: [id])
+  owner       User         @relation("CommunityToUser", fields: [ownerId], references: [id])
+  posts       Post[]       @relation("PostToCommunity")
+  subscribers Subscriber[] @relation("SubscriberToCommunity")
+}
+
+model Subscriber {
+  id          String    @unique @default(uuid())
+  userId      String
+  communityId String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  community   Community @relation("SubscriberToCommunity", fields: [communityId], references: [id])
+  user        User      @relation("SubscriberToUser", fields: [userId], references: [id])
+}
+
+model Comment {
+  id        String   @unique @default(uuid())
+  text      String
+  ownerId   String
+  postId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  owner     User     @relation("CommentToUser", fields: [ownerId], references: [id])
+  post      Post     @relation("CommentToPost", fields: [postId], references: [id])
+}
+
+model Post {
+  id          String    @unique @default(uuid())
+  title       String
+  text        String
+  ownerId     String
+  communityId String
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  comments    Comment[] @relation("CommentToPost")
+  images      Image?    @relation("ImageToPost")
+  likes       Like[]    @relation("LikeToPost")
+  community   Community @relation("PostToCommunity", fields: [communityId], references: [id])
+  owner       User      @relation("PostToUser", fields: [ownerId], references: [id])
+}
+
+model Like {
+  id        String   @unique @default(uuid())
+  userId    String
+  postId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  post      Post     @relation("LikeToPost", fields: [postId], references: [id])
+  user      User     @relation("LikeToUser", fields: [userId], references: [id])
+}
