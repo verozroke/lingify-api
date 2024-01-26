@@ -82,6 +82,9 @@ model Card {
   id         String   @unique @default(uuid())
   word       String
   definition String
+  imageId String @unique
+  image Image? @relation("CardToImage", fields: [imageId], references: [id]) 
+
   cardSetId  String
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
@@ -111,6 +114,7 @@ model Image {
   post            Post?      @relation("ImageToPost", fields: [postId], references: [id])
   userAvatar      User?      @relation("UserAvatarToImage")
   userBanner      User?      @relation("UserBannerToImage")
+  cardImage Card? @relation("CardToImage")
 }
 
 model Community {
