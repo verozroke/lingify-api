@@ -95,7 +95,7 @@ model Country {
   id        String     @unique @default(uuid())
   name      String
   code      String
-  languages String
+  language String
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
   community Community? @relation("CommunityToCountry")
