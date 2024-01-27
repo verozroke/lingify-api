@@ -1,34 +1,47 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { CardsService } from './cards.service';
 import { CreateCardDto } from './dto/create-card.dto';
 import { UpdateCardDto } from './dto/update-card.dto';
+import { UploadAvatarDto } from './dto/upload-avatar.dto';
+import { Request, Response } from 'express';
+import { JwtAuthGuard } from 'src/auth/jwt.guard'; // Assuming you have a similar guard
 
 @Controller('cards')
 export class CardsController {
-  constructor(private readonly cardsService: CardsService) {}
+  constructor(private readonly cardsService: CardsService) { }
 
+  @UseGuards(JwtAuthGuard) // Apply guards as needed
   @Post()
-  create(@Body() createCardDto: CreateCardDto) {
-    return this.cardsService.create(createCardDto);
+  create(req: Request, res: Response, @Body() createCardDto: CreateCardDto) {
+    return this.cardsService.create(req, res, createCardDto);
   }
 
   @Get()
-  findAll() {
-    return this.cardsService.findAll();
+  findAll(req: Request, res: Response) {
+    return this.cardsService.findAll(req, res);
   }
 
+  @UseGuards(JwtAuthGuard) // Apply guards as needed
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.cardsService.findOne(+id);
+  findOne(req: Request, res: Response, @Param('id') id: string) {
+    return this.cardsService.findOne(req, res, id);
   }
 
+  @UseGuards(JwtAuthGuard) // Apply guards as needed
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCardDto: UpdateCardDto) {
-    return this.cardsService.update(+id, updateCardDto);
+  update(req: Request, res: Response, @Param('id') id: string, @Body() updateCardDto: UpdateCardDto) {
+    return this.cardsService.update(req, res, id, updateCardDto);
   }
 
+  @UseGuards(JwtAuthGuard) // Apply guards as needed
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.cardsService.remove(+id);
+  remove(req: Request, res: Response, @Param('id') id: string) {
+    return this.cardsService.remove(req, res, id);
+  }
+
+  @UseGuards(JwtAuthGuard) // Apply guards as needed
+  @Post(':id/upload/avatar')
+  uploadAvatar(req: Request, res: Response, @Param('id') id: string, @Body() body: UploadAvatarDto) {
+    return this.cardsService.uploadAvatar(req, res, id, body);
   }
 }

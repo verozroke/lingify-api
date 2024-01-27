@@ -14,7 +14,7 @@ export class UsersService {
       throw new NotFoundException()
     }
 
-    const decodedUser = req.user as { id: string, email: string }
+    const decodedUser = req.user as { id: string, nickname: string }
     if (user.id !== decodedUser.id) {
       throw new ForbiddenException()
     }
@@ -28,7 +28,7 @@ export class UsersService {
 
   async getUserByHash(req: Request) {
 
-    const decodedUser = req.user as { id: string, email: string }
+    const decodedUser = req.user as { id: string, nickname: string }
     const user = await this.prisma.user.findUnique({ where: { id: decodedUser.id } })
     if (!user) {
       throw new NotFoundException()

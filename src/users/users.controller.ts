@@ -16,7 +16,6 @@ export class UsersController {
 
 
   @UseGuards(JwtAuthGuard)
-
   @Get('/hash')
   getUserByHash(@Req() req: Request) {
     return this.usersService.getUserByHash(req)
