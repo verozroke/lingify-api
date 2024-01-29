@@ -2,33 +2,34 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { CommunitiesService } from './communities.service';
 import { CreateCommunityDto } from './dto/create-community.dto';
 import { UpdateCommunityDto } from './dto/update-community.dto';
+import { Request, Response } from 'express';
 
 @Controller('communities')
 export class CommunitiesController {
-  constructor(private readonly communitiesService: CommunitiesService) {}
+  constructor(private readonly communitiesService: CommunitiesService) { }
 
   @Post()
-  create(@Body() createCommunityDto: CreateCommunityDto) {
-    return this.communitiesService.create(createCommunityDto);
+  create(req: Request, res: Response, @Body() createCommunityDto: CreateCommunityDto) {
+    return this.communitiesService.create(req, res, createCommunityDto);
   }
 
   @Get()
-  findAll() {
-    return this.communitiesService.findAll();
+  findAll(req: Request, res: Response) {
+    return this.communitiesService.findAll(req, res);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.communitiesService.findOne(+id);
+  findOne(req: Request, res: Response, @Param('id') id: string) {
+    return this.communitiesService.findOne(req, res, id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateCommunityDto: UpdateCommunityDto) {
-    return this.communitiesService.update(+id, updateCommunityDto);
+  update(req: Request, res: Response, @Param('id') id: string, @Body() updateCommunityDto: UpdateCommunityDto) {
+    return this.communitiesService.update(req, res, id, updateCommunityDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.communitiesService.remove(+id);
+  remove(req: Request, res: Response, @Param('id') id: string) {
+    return this.communitiesService.remove(req, res, id);
   }
 }

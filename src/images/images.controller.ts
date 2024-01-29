@@ -2,33 +2,34 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { ImagesService } from './images.service';
 import { CreateImageDto } from './dto/create-image.dto';
 import { UpdateImageDto } from './dto/update-image.dto';
+import { Request, Response } from 'express';
 
 @Controller('images')
 export class ImagesController {
-  constructor(private readonly imagesService: ImagesService) {}
+  constructor(private readonly imagesService: ImagesService) { }
 
   @Post()
-  create(@Body() createImageDto: CreateImageDto) {
-    return this.imagesService.create(createImageDto);
+  create(req: Request, res: Response, @Body() createImageDto: CreateImageDto) {
+    return this.imagesService.create(req, res, createImageDto);
   }
 
   @Get()
-  findAll() {
-    return this.imagesService.findAll();
+  findAll(req: Request, res: Response) {
+    return this.imagesService.findAll(req, res);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.imagesService.findOne(+id);
+  findOne(req: Request, res: Response, @Param('id') id: string) {
+    return this.imagesService.findOne(req, res, id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateImageDto: UpdateImageDto) {
-    return this.imagesService.update(+id, updateImageDto);
+  update(req: Request, res: Response, @Param('id') id: string, @Body() updateImageDto: UpdateImageDto) {
+    return this.imagesService.update(req, res, id, updateImageDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.imagesService.remove(+id);
+  remove(req: Request, res: Response, @Param('id') id: string) {
+    return this.imagesService.remove(req, res, id);
   }
 }

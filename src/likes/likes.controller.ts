@@ -2,33 +2,34 @@ import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/commo
 import { LikesService } from './likes.service';
 import { CreateLikeDto } from './dto/create-like.dto';
 import { UpdateLikeDto } from './dto/update-like.dto';
+import { Request, Response } from 'express';
 
 @Controller('likes')
 export class LikesController {
-  constructor(private readonly likesService: LikesService) {}
+  constructor(private readonly likesService: LikesService) { }
 
   @Post()
-  create(@Body() createLikeDto: CreateLikeDto) {
-    return this.likesService.create(createLikeDto);
+  create(req: Request, res: Response, @Body() createLikeDto: CreateLikeDto) {
+    return this.likesService.create(req, res, createLikeDto);
   }
 
   @Get()
-  findAll() {
-    return this.likesService.findAll();
+  findAll(req: Request, res: Response) {
+    return this.likesService.findAll(req, res);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.likesService.findOne(+id);
+  findOne(req: Request, res: Response, @Param('id') id: string) {
+    return this.likesService.findOne(req, res, id);
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateLikeDto: UpdateLikeDto) {
-    return this.likesService.update(+id, updateLikeDto);
+  update(req: Request, res: Response, @Param('id') id: string, @Body() updateLikeDto: UpdateLikeDto) {
+    return this.likesService.update(req, res, id, updateLikeDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.likesService.remove(+id);
+  remove(req: Request, res: Response, @Param('id') id: string) {
+    return this.likesService.remove(req, res, id);
   }
 }

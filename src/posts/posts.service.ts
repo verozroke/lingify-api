@@ -1,26 +1,52 @@
-import { Injectable } from '@nestjs/common';
+import { BadRequestException, Injectable } from '@nestjs/common';
 import { CreatePostDto } from './dto/create-post.dto';
 import { UpdatePostDto } from './dto/update-post.dto';
+import { Request, Response } from 'express';
+import { PrismaService } from 'prisma/prisma.service'; // Adjust the import path as necessary
 
 @Injectable()
 export class PostsService {
-  create(createPostDto: CreatePostDto) {
-    return 'This action adds a new post';
+  constructor(private prisma: PrismaService) { }
+
+  async create(req: Request, res: Response, createPostDto: CreatePostDto) {
+    const post = await this.prisma.post.create({
+      data: createPostDto
+    });
+
+    return res.send(JSON.stringify(post));
   }
 
-  findAll() {
-    return `This action returns all posts`;
+  async findAll(req: Request, res: Response) {
+    const posts = await this.prisma.post.findMany();
+    return res.send(JSON.stringify(posts));
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} post`;
+  async findOne(req: Request, res: Response, id: string) {
+    const post = await this.prisma.post.findUnique({
+      where: { id }
+    });
+
+    if (!post) {
+      throw new BadRequestException('Post not found');
+    }
+
+    return res.send(JSON.stringify(post));
   }
 
-  update(id: number, updatePostDto: UpdatePostDto) {
-    return `This action updates a #${id} post`;
+  async update(req: Request, res: Response, id: string, updatePostDto: UpdatePostDto) {
+    const post = await this.prisma.post.update({
+      where: { id },
+      data: updatePostDto
+    });
+
+    return res.send(JSON.stringify(post));
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} post`;
+  async remove(req: Request, res: Response, id: string) {
+    await this.prisma.post.delete({
+      where: { id }
+    });
+
+    return res.send({ message: 'Post successfully deleted' });
   }
 }
