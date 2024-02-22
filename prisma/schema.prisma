@@ -13,10 +13,10 @@ model User {
   hashedPassword String
   createdAt      DateTime     @default(now())
   updatedAt      DateTime     @updatedAt
-  avatarId       String       @unique
-  bannerId       String       @unique
+  avatarId       String?       @unique
+  bannerId       String?       @unique
   bio            String?
-  countryId      String       @unique
+  countryId      String?       @unique
   fullName       String?
   nickname       String       @unique
   cardSets       CardSet[]    @relation("CardSetToUser")
@@ -26,9 +26,9 @@ model User {
   likes          Like[]       @relation("LikeToUser")
   posts          Post[]       @relation("PostToUser")
   subscribers    Subscriber[] @relation("SubscriberToUser")
-  avatar         Image        @relation("UserAvatarToImage", fields: [avatarId], references: [id])
-  banner         Image        @relation("UserBannerToImage", fields: [bannerId], references: [id])
-  country        Country      @relation("UserToCountry", fields: [countryId], references: [id])
+  avatar         Image?       @relation("UserAvatarToImage", fields: [avatarId], references: [id])
+  banner         Image?        @relation("UserBannerToImage", fields: [bannerId], references: [id])
+  country        Country?      @relation("UserToCountry", fields: [countryId], references: [id])
 }
 
 model Course {
@@ -92,7 +92,7 @@ model Country {
   id        String     @unique @default(uuid())
   name      String
   code      String
-  languages String
+  language  String
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
   community Community? @relation("CommunityToCountry")
