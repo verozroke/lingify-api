@@ -18,14 +18,14 @@ export class CreateCommunityDto {
 
   @IsNotEmpty()
   @IsString()
-  avatarId: string
+  avatarUrl: string
 
   @IsNotEmpty()
   @IsString()
-  bannerId: string
+  bannerUrl: string
 
   @IsNotEmpty()
   @IsString()
-  countryId: string
+  countryName: string
 
 }
