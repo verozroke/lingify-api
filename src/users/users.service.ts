@@ -1,7 +1,7 @@
 import { BadRequestException, Body, ForbiddenException, Injectable, NotFoundException, Param, Req, Res } from '@nestjs/common';
 import { Request, Response } from 'express';
 import { PrismaService } from 'prisma/prisma.service';
-import { ChangePasswordDto, ChangeNameDto, ChangeEmailDto, UploadAvatarDto } from './dto/users.dto';
+import { ChangePasswordDto, ChangeNameDto, ChangeEmailDto, UploadAvatarDto, ChangeCountryDto, ChangeFullNameDto, ChangeBioDto, UploadBannerDto } from './dto/users.dto';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -140,6 +140,91 @@ export class UsersService {
     return res.send({ message: 'Changed email successfully' })
   }
 
+
+  async changeFullName(@Param() params: { id: string }, @Body() { fullName }: ChangeFullNameDto, @Req() req: Request, @Res() res: Response) {
+    const { id } = params
+
+    const foundUser = await this.prisma.user.findUnique({
+      where: {
+        id,
+      }
+    })
+
+    if (!foundUser) {
+      throw new BadRequestException('No user found for id' + id)
+    }
+
+    await this.prisma.user.update({
+      where: {
+        id,
+      },
+      data: {
+        fullName,
+      }
+    })
+
+    return res.send({ message: 'Changed fullName successfully' })
+  }
+
+
+  async changeBio(@Param() params: { id: string }, @Body() { bio }: ChangeBioDto, @Req() req: Request, @Res() res: Response) {
+    const { id } = params
+
+    const foundUser = await this.prisma.user.findUnique({
+      where: {
+        id,
+      }
+    })
+
+    if (!foundUser) {
+      throw new BadRequestException('No user found for id' + id)
+    }
+
+    await this.prisma.user.update({
+      where: {
+        id,
+      },
+      data: {
+        bio,
+      }
+    })
+
+    return res.send({ message: 'Changed bio successfully' })
+  }
+
+  async changeCountry(@Param() params: { id: string }, @Body() { country }: ChangeCountryDto, @Req() req: Request, @Res() res: Response) {
+    const { id } = params
+
+    const foundUser = await this.prisma.user.findUnique({
+      where: {
+        id,
+      }
+    })
+
+    if (!foundUser) {
+      throw new BadRequestException('No user found for id' + id)
+    }
+
+
+    const foundCountry = await this.prisma.country.findFirst({
+      where: {
+        name: country
+      }
+    })
+
+    await this.prisma.user.update({
+      where: {
+        id,
+      },
+      data: {
+        countryId: foundCountry.id
+      }
+    })
+
+    return res.send({ message: 'Changed country successfully' })
+  }
+
+
   async deleteUser(@Param() params: { id: string }, @Req() req: Request, @Res() res: Response) {
 
     const { id } = params
@@ -208,6 +293,54 @@ export class UsersService {
     })
 
     return res.send({ message: 'Avatar uploaded successfully' })
+  }
+
+
+  async uploadBanner(@Param() params: { id: string }, @Body() body: UploadBannerDto, @Req() req: Request, @Res() res: Response) {
+    const { id } = params
+
+
+    const foundUser = await this.prisma.user.findUnique({
+      where: {
+        id,
+      }
+    })
+
+    if (!foundUser) {
+      throw new BadRequestException('No user found for id' + id)
+    }
+
+
+    const foundBanner = await this.prisma.image.findUnique({
+      where: {
+        id: foundUser.bannerId ? foundUser.bannerId : ''
+      }
+    })
+
+    if (foundBanner) {
+      await this.prisma.image.delete({
+        where: {
+          id: foundBanner.id
+        }
+      })
+    }
+
+    const createdImage = await this.prisma.image.create({
+      data: {
+        url: body.bannerUrl
+      }
+    })
+
+    await this.prisma.user.update({
+      where: {
+        id
+      },
+      data: {
+        bannerId: createdImage.id
+      }
+    })
+
+    return res.send({ message: 'Banner uploaded successfully' })
   }
   async getUsers() {
     return await this.prisma.user.findMany({

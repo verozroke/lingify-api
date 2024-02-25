@@ -2,7 +2,7 @@ import { Body, Controller, Get, Param, Patch, Req, Res, UseGuards } from '@nestj
 import { Request, Response } from 'express';
 import { UsersService } from './users.service';
 import { JwtAuthGuard } from 'src/auth/jwt.guard';
-import { ChangeEmailDto, ChangeNameDto, ChangePasswordDto, UploadAvatarDto } from './dto/users.dto';
+import { ChangeBioDto, ChangeCountryDto, ChangeEmailDto, ChangeFullNameDto, ChangeNameDto, ChangePasswordDto, UploadAvatarDto, UploadBannerDto } from './dto/users.dto';
 
 @Controller('users')
 export class UsersController {
@@ -33,6 +33,13 @@ export class UsersController {
   }
 
   @UseGuards(JwtAuthGuard)
+  @Patch('/:id/banner')
+  uploadBanner(@Param() params: { id: string }, @Body() body: UploadBannerDto, @Req() req: Request, @Res() res: Response) {
+    return this.usersService.uploadBanner(params, body, req, res)
+  }
+
+
+  @UseGuards(JwtAuthGuard)
   @Patch('/:id/name')
   changeName(@Param() params: { id: string }, @Body() body: ChangeNameDto, @Req() req: Request, @Res() res: Response) {
     return this.usersService.changeName(params, body, req, res)
@@ -48,5 +55,23 @@ export class UsersController {
   @Patch('/:id/password')
   changePassword(@Param() params: { id: string }, @Body() body: ChangePasswordDto, @Req() req: Request, @Res() res: Response) {
     return this.usersService.changePassword(params, body, req, res)
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch('/:id/country')
+  changeCountry(@Param() params: { id: string }, @Body() body: ChangeCountryDto, @Req() req: Request, @Res() res: Response) {
+    return this.usersService.changeCountry(params, body, req, res)
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch('/:id/full-name')
+  changeFullName(@Param() params: { id: string }, @Body() body: ChangeFullNameDto, @Req() req: Request, @Res() res: Response) {
+    return this.usersService.changeFullName(params, body, req, res)
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch('/:id/bio')
+  changeBio(@Param() params: { id: string }, @Body() body: ChangeBioDto, @Req() req: Request, @Res() res: Response) {
+    return this.usersService.changeBio(params, body, req, res)
   }
 }

@@ -7,6 +7,14 @@ export class UploadAvatarDto {
   avatarUrl: string
 }
 
+export class UploadBannerDto {
+  @IsNotEmpty()
+  @IsString()
+  @IsUrl()
+  bannerUrl: string
+
+}
+
 
 export class ChangeEmailDto {
   @IsNotEmpty()
@@ -15,11 +23,30 @@ export class ChangeEmailDto {
   email: string
 }
 
-
 export class ChangeNameDto {
   @IsNotEmpty()
   @IsString()
   nickname: string
+}
+
+
+export class ChangeCountryDto {
+  @IsNotEmpty()
+  @IsString()
+  country: string
+}
+
+
+export class ChangeFullNameDto {
+  @IsNotEmpty()
+  @IsString()
+  fullName: string
+}
+
+export class ChangeBioDto {
+  @IsNotEmpty()
+  @IsString()
+  bio: string
 }
 
 export class ChangePasswordDto {
