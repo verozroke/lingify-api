@@ -14,8 +14,9 @@ import { SubscribersModule } from './subscribers/subscribers.module';
 import { CommentsModule } from './comments/comments.module';
 import { PostsModule } from './posts/posts.module';
 import { LikesModule } from './likes/likes.module';
+import { ChatCompletionApiModule } from './chat-completion-api/chat-completion-api.module';
 
 @Module({
-  imports: [AuthModule, PrismaModule, UsersModule, CoursesModule, LessonsModule, MaterialsModule, CardSetsModule, CardsModule, CountriesModule, ImagesModule, CommunitiesModule, SubscribersModule, CommentsModule, PostsModule, LikesModule],
+  imports: [AuthModule, PrismaModule, UsersModule, CoursesModule, LessonsModule, MaterialsModule, CardSetsModule, CardsModule, CountriesModule, ImagesModule, CommunitiesModule, SubscribersModule, CommentsModule, PostsModule, LikesModule, ChatCompletionApiModule],
 })
 export class AppModule { }
