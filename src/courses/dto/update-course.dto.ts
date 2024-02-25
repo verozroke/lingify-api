@@ -20,10 +20,6 @@ export class UpdateCourseDto extends PartialType(CreateCourseDto) {
   avatarId: string;
 
   @IsNotEmpty()
-  @IsString()
-  userId: string;
-
-  @IsNotEmpty()
   @IsDate()
   createdAt: Date
 

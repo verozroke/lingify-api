@@ -33,7 +33,6 @@ export class UsersService {
     const decodedUser = req.user as { id: string, nickname: string }
     const user = await this.prisma.user.findUnique({
       where: { id: decodedUser.id }, include: {
-        courses: true,
         cardSets: true,
         subscribers: true,
         avatar: true,

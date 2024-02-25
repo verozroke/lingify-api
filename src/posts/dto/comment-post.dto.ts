@@ -1,22 +1,17 @@
+
 import { IsNotEmpty, IsString } from "class-validator"
 
-export class CreatePostDto {
-  @IsNotEmpty()
-  @IsString()
-  title: string
 
+export class CommentPostDto {
   @IsNotEmpty()
   @IsString()
   text: string
 
   @IsNotEmpty()
   @IsString()
-  ownerId: string
-
-  @IsString()
-  imageUrl?: string
+  userId: string
 
   @IsNotEmpty()
   @IsString()
-  communityId: string
+  postId: string
 }

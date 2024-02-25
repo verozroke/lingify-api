@@ -22,7 +22,6 @@ model User {
   cardSets       CardSet[]    @relation("CardSetToUser")
   comments       Comment[]    @relation("CommentToUser")
   communities    Community[]  @relation("CommunityToUser")
-  courses        Course[]     @relation("CourseToUser")
   likes          Like[]       @relation("LikeToUser")
   posts          Post[]       @relation("PostToUser")
   subscribers    Subscriber[] @relation("SubscriberToUser")
@@ -36,11 +35,9 @@ model Course {
   name        String   @unique
   description String
   avatarId    String   @unique
-  userId      String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   avatar      Image    @relation("CourseAvatarToImage", fields: [avatarId], references: [id])
-  user        User     @relation("CourseToUser", fields: [userId], references: [id])
   lessons     Lesson[] @relation("LessonToUser")
 }
 
@@ -162,7 +159,7 @@ model Post {
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   comments    Comment[] @relation("CommentToPost")
-  image      Image?    @relation("ImageToPost")
+  image       Image?    @relation("ImageToPost")
   likes       Like[]    @relation("LikeToPost")
   community   Community @relation("PostToCommunity", fields: [communityId], references: [id])
   owner       User      @relation("PostToUser", fields: [ownerId], references: [id])

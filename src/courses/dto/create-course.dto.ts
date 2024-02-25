@@ -12,8 +12,4 @@ export class CreateCourseDto {
   @IsNotEmpty()
   @IsString()
   avatarId: string;
-
-  @IsNotEmpty()
-  @IsString()
-  userId: string;
 }

@@ -33,6 +33,30 @@ export class CoursesService {
     return res.send(JSON.stringify(course));
   }
 
+
+  async findOneByName(req: Request, res: Response, courseName: string) {
+    const course = await this.prisma.course.findFirst({
+      where: {
+        name: courseName
+      },
+      include: {
+        avatar: true,
+        lessons: {
+          include: {
+            materials: true
+          }
+        }
+      }
+    });
+
+    if (!course) {
+      throw new BadRequestException('Course not found');
+    }
+
+    return res.send(JSON.stringify(course));
+  }
+
+
   async update(req: Request, res: Response, id: string, updateCourseDto: UpdateCourseDto) {
     const course = await this.prisma.course.update({
       where: { id },

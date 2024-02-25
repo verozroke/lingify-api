@@ -18,10 +18,6 @@ export class Course {
   avatarId: string;
 
   @IsNotEmpty()
-  @IsString()
-  userId: string;
-
-  @IsNotEmpty()
   @IsDate()
   createdAt: Date
 

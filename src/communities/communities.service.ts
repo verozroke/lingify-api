@@ -72,7 +72,29 @@ export class CommunitiesService {
         banner: true,
         avatar: true,
         country: true,
-        posts: true,
+        posts: {
+          include: {
+            likes: true,
+            comments: {
+              include: {
+                owner: {
+                  include: {
+                    avatar: true,
+                  }
+                }
+              }
+            },
+            image: true,
+            owner: {
+              include: {
+                avatar: true
+              }
+            },
+          },
+          orderBy: {
+            createdAt: 'desc'
+          }
+        },
         owner: true,
         subscribers: true,
       }
