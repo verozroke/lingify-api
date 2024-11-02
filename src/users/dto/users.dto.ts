@@ -1,4 +1,11 @@
-import { IsEmail, IsNotEmpty, IsNumber, IsString, IsUrl, Length } from "class-validator";
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+  IsUrl,
+  Length,
+} from "class-validator";
 
 export class UploadAvatarDto {
   @IsNotEmpty()
@@ -45,13 +52,11 @@ export class ChangeBioDto {
   bio: string;
 }
 
-
 export class ChangeTestsCompletedDto {
   @IsNotEmpty()
   @IsNumber()
   testsCompleted: number;
 }
-
 
 export class ChangePasswordDto {
   @IsNotEmpty()

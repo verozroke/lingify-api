@@ -16,25 +16,25 @@ const propmts = {
 };
 
 export type GeneratedLesson = {
-  name: string,
-  description: string,
-  keyWords: string
-}
+  name: string;
+  description: string;
+  keyWords: string;
+};
 
 export type GeneratedMaterial = {
-  name: string,
-  description: string,
-}
+  name: string;
+  description: string;
+};
 
 export type GeneratedTest = {
-  question: string,
-  correctAnswer: string,
-  selectedVariant: string,
+  question: string;
+  correctAnswer: string;
+  selectedVariant: string;
   variants: {
-    letter: 'A' | 'B' | 'C' | 'D',
-    answer: string
-  }[]
-}
+    letter: "A" | "B" | "C" | "D";
+    answer: string;
+  }[];
+};
 
 export const generatePrompt = (modelName: string, data: PromptBody) =>
   propmts[modelName](data);

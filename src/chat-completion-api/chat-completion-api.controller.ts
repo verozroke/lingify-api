@@ -4,7 +4,7 @@ import { CreateTestGetChatCompletionAnswerInputDTO } from "./dto/chat-completion
 
 @Controller("chat-completion-api")
 export class ChatCompletionApiController {
-  constructor(private readonly service: ChatCompletionApiService) { }
+  constructor(private readonly service: ChatCompletionApiService) {}
 
   @Post()
   getChatCompletionMessage(

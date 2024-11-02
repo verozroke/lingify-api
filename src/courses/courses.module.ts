@@ -7,4 +7,4 @@ import { ChatCompletionApiService } from "src/chat-completion-api/chat-completio
   controllers: [CoursesController],
   providers: [CoursesService, ChatCompletionApiService],
 })
-export class CoursesModule { }
+export class CoursesModule {}

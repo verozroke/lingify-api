@@ -25,7 +25,7 @@ import * as bcrypt from "bcrypt";
 
 @Injectable()
 export class UsersService {
-  constructor(private prisma: PrismaService) { }
+  constructor(private prisma: PrismaService) {}
 
   async getUserById(id: string, req: Request) {
     const user = await this.prisma.user.findUnique({ where: { id } });
