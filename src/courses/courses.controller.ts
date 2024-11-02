@@ -8,6 +8,7 @@ import {
   Delete,
   Req,
   Res,
+  Query,
 } from "@nestjs/common";
 import { CoursesService } from "./courses.service";
 import { CreateCourseDto } from "./dto/create-course.dto";
@@ -16,7 +17,7 @@ import { Request, Response } from "express";
 
 @Controller("courses")
 export class CoursesController {
-  constructor(private readonly coursesService: CoursesService) {}
+  constructor(private readonly coursesService: CoursesService) { }
 
   @Post()
   create(
@@ -28,8 +29,8 @@ export class CoursesController {
   }
 
   @Get()
-  findAll(@Req() req: Request, @Res() res: Response) {
-    return this.coursesService.findAll(req, res);
+  findAll(@Req() req: Request, @Res() res: Response, @Query('user_id') userId: string,) {
+    return this.coursesService.findAll(req, res, userId);
   }
 
   @Get(":id")

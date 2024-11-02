@@ -14,18 +14,25 @@ export class CoursesService {
   constructor(
     private prisma: PrismaService,
     private chatAPI: ChatCompletionApiService
-  ) {}
+  ) { }
 
   async create(req: Request, res: Response, payload: CreateCourseDto) {
-    const { courseLanguage, languageLevel, nativeLanguage, avatarId, userId } =
+    const { courseLanguage, languageLevel, nativeLanguage, avatarUrl, userId } =
       payload;
+
+
+    const avatar = await this.prisma.image.create({
+      data: {
+        url: avatarUrl
+      }
+    })
 
     const course = await this.prisma.course.create({
       data: {
         name: `${courseLanguage} (${languageLevel})`,
         nativeLanguage,
         description: `Course of ${courseLanguage} in ${languageLevel} level.`,
-        avatarId,
+        avatarId: avatar.id,
         userId,
       },
     });
@@ -72,14 +79,40 @@ export class CoursesService {
     return res.send(JSON.stringify(course));
   }
 
-  async findAll(req: Request, res: Response) {
-    const courses = await this.prisma.course.findMany();
+  async findAll(req: Request, res: Response, userId: string) {
+    const foundUser = await this.prisma.user.findUnique({
+      where: {
+        id: userId,
+      },
+    });
+
+    if (!foundUser) {
+      throw new BadRequestException("No user found for id: " + userId);
+    }
+
+
+    const courses = await this.prisma.course.findMany({
+      where: {
+        userId,
+      },
+      include: {
+        avatar: true
+      }
+    });
     return res.send(JSON.stringify(courses));
   }
 
   async findOne(req: Request, res: Response, id: string) {
     const course = await this.prisma.course.findUnique({
       where: { id },
+      include: {
+        avatar: true,
+        lessons: {
+          include: {
+            materials: true,
+          },
+        },
+      },
     });
 
     if (!course) {
