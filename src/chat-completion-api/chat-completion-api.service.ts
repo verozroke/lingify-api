@@ -1,33 +1,38 @@
 import { Injectable } from '@nestjs/common';
-import { ChatHistoryManager } from './model/chat-history-manager';
-import { ChatOpenAI } from 'langchain/chat_models/openai'
-import { GetChatCompletionAnswerInputDTO, GetChatCompletionAnswerOutputDTO } from './model/chat-completion-answer.dto';
+import {
+  CreateLessonsGetChatCompletionAnswerInputDTO,
+  CreateMaterialsGetChatCompletionAnswerInputDTO,
+  CreateTestGetChatCompletionAnswerInputDTO,
+  GetChatCompletionAnswerOutputDTO
+} from './dto/chat-completion-answer.dto';
 import { generatePrompt } from 'src/utils/utils';
+import { geminiUrl } from 'src/utils/constants';
+import axios from 'axios';
 
-const DEFAULT_TEMPERATURE = 1
-const DEFAULT_MODEL = 'gpt-3.5-turbo'
 
 @Injectable()
 export class ChatCompletionApiService {
-  private readonly chatHistory: ChatHistoryManager
-  private readonly chat: ChatOpenAI
 
-  constructor() {
-    this.chatHistory = new ChatHistoryManager()
-    this.chat = new ChatOpenAI({
-      temperature: DEFAULT_TEMPERATURE,
-      openAIApiKey: process.env.OPENAI_API_KEY,
-      modelName: DEFAULT_MODEL
-    })
-  }
+  async getAiModelAnswer(prompt: string) {
+    const geminiPayload = {
+      contents: [
+        {
+          parts: [
+            {
+              text: prompt
+            }
+          ]
+        }
+      ]
+    }
 
-
-  async getAiModelAnswer(data: GetChatCompletionAnswerInputDTO) {
-    const propmt = generatePrompt(data)
-    this.chatHistory.addHumanMessage(propmt)
-    const result = await this.chat.predictMessages(this.chatHistory.chatHistory)
-    const aiMessage = result.content as string
-    this.chatHistory.addAiMessage(aiMessage)
+    const { data } = await axios.post(geminiUrl, geminiPayload)
+    const aiMessage = data.candidates[0].content.parts[0].text as string
     return JSON.stringify(GetChatCompletionAnswerOutputDTO.getInstance(aiMessage).aiMessage)
   }
+
+  createLessons = async (data: CreateLessonsGetChatCompletionAnswerInputDTO) => this.getAiModelAnswer(generatePrompt('Lessons', data));
+  createMaterials = async (data: CreateMaterialsGetChatCompletionAnswerInputDTO) => this.getAiModelAnswer(generatePrompt('Materials', data))
+  createTest = async (data: CreateTestGetChatCompletionAnswerInputDTO) => this.getAiModelAnswer(generatePrompt('Test', data))
+
 }
