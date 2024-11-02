@@ -3,15 +3,71 @@ import { CreateCourseDto } from "./dto/create-course.dto";
 import { UpdateCourseDto } from "./dto/update-course.dto";
 import { Request, Response } from "express";
 import { PrismaService } from "prisma/prisma.service"; // Adjust the import path as necessary
+import { ChatCompletionApiService } from "src/chat-completion-api/chat-completion-api.service";
+import { CreateLessonsGetChatCompletionAnswerInputDTO, CreateMaterialsGetChatCompletionAnswerInputDTO } from "src/chat-completion-api/dto/chat-completion-answer.dto";
 
 @Injectable()
 export class CoursesService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService, private chatAPI: ChatCompletionApiService) { }
 
-  async create(req: Request, res: Response, createCourseDto: CreateCourseDto) {
+  async create(req: Request, res: Response, payload: CreateCourseDto) {
+
+    const {
+      courseLanguage,
+      languageLevel,
+      nativeLanguage,
+      avatarId,
+      userId
+    } = payload
+
     const course = await this.prisma.course.create({
-      data: createCourseDto,
+      data: {
+        name: `${courseLanguage} (${languageLevel})`,
+        nativeLanguage,
+        description: `Course of ${courseLanguage} in ${languageLevel} level.`,
+        avatarId,
+        userId,
+      },
     });
+
+    const lessonsPayload: CreateLessonsGetChatCompletionAnswerInputDTO = {
+      courseLanguage,
+      languageLevel,
+      nativeLanguage,
+    }
+
+    const lessons = await this.chatAPI.createLessons(lessonsPayload)
+
+    lessons.forEach(async ({ name, keyWords, description }) => {
+      const lesson = await this.prisma.lesson.create({
+        data: {
+          name,
+          keyWords,
+          description,
+          courseId: course.id
+        }
+      })
+
+      const materialsPayload: CreateMaterialsGetChatCompletionAnswerInputDTO = {
+        courseName: course.name,
+        lessonsName: lesson.name,
+        lessonDescription: lesson.description,
+        nativeLanguage,
+        keyWords: lesson.keyWords
+      }
+
+      const materials = await this.chatAPI.createMaterials(materialsPayload)
+
+      materials.forEach(async ({ name, description }) => {
+        await this.prisma.material.create({
+          data: {
+            name,
+            description,
+            lessonId: lesson.id,
+          }
+        })
+      })
+    })
 
     return res.send(JSON.stringify(course));
   }

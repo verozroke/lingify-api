@@ -19,6 +19,7 @@ model User {
   countryId      String?      @unique
   fullName       String?
   nickname       String       @unique
+  testsCompleted Int          @default(0)
   cardSets       CardSet[]    @relation("CardSetToUser")
   comments       Comment[]    @relation("CommentToUser")
   communities    Community[]  @relation("CommunityToUser")

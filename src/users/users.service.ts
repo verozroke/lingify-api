@@ -19,12 +19,13 @@ import {
   ChangeFullNameDto,
   ChangeBioDto,
   UploadBannerDto,
+  ChangeTestsCompletedDto,
 } from "./dto/users.dto";
 import * as bcrypt from "bcrypt";
 
 @Injectable()
 export class UsersService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private prisma: PrismaService) { }
 
   async getUserById(id: string, req: Request) {
     const user = await this.prisma.user.findUnique({ where: { id } });
@@ -225,6 +226,36 @@ export class UsersService {
     });
 
     return res.send({ message: "Changed bio successfully" });
+  }
+
+  async changeTestsCompleted(
+    @Param() params: { id: string },
+    @Body() { testsCompleted }: ChangeTestsCompletedDto,
+    @Req() req: Request,
+    @Res() res: Response
+  ) {
+    const { id } = params;
+
+    const foundUser = await this.prisma.user.findUnique({
+      where: {
+        id,
+      },
+    });
+
+    if (!foundUser) {
+      throw new BadRequestException("No user found for id" + id);
+    }
+
+    await this.prisma.user.update({
+      where: {
+        id,
+      },
+      data: {
+        testsCompleted,
+      },
+    });
+
+    return res.send({ message: "Changed test completed successfully" });
   }
 
   async changeCountry(

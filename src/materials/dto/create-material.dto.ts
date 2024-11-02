@@ -7,7 +7,7 @@ export class CreateMaterialDto {
 
   @IsNotEmpty()
   @IsString()
-  url: string;
+  description: string;
 
   @IsNotEmpty()
   @IsString()

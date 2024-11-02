@@ -5,13 +5,13 @@ import {
   CreateTestGetChatCompletionAnswerInputDTO,
   GetChatCompletionAnswerOutputDTO,
 } from "./dto/chat-completion-answer.dto";
-import { generatePrompt } from "src/utils/utils";
+import { GeneratedLesson, GeneratedMaterial, GeneratedTest, generatePrompt } from "src/utils/utils";
 import { geminiUrl } from "src/utils/constants";
 import axios from "axios";
 
 @Injectable()
 export class ChatCompletionApiService {
-  async getAiModelAnswer(prompt: string) {
+  async getAiModelAnswer<T>(prompt: string): Promise<T[]> {
     const geminiPayload = {
       contents: [
         {
@@ -26,16 +26,13 @@ export class ChatCompletionApiService {
 
     const { data } = await axios.post(geminiUrl, geminiPayload);
     const aiMessage = data.candidates[0].content.parts[0].text as string;
-    return JSON.stringify(
-      GetChatCompletionAnswerOutputDTO.getInstance(aiMessage).aiMessage
-    );
+    return JSON.parse(GetChatCompletionAnswerOutputDTO.getInstance(aiMessage).aiMessage)
   }
 
   createLessons = async (data: CreateLessonsGetChatCompletionAnswerInputDTO) =>
-    this.getAiModelAnswer(generatePrompt("Lessons", data));
-  createMaterials = async (
-    data: CreateMaterialsGetChatCompletionAnswerInputDTO
-  ) => this.getAiModelAnswer(generatePrompt("Materials", data));
+    this.getAiModelAnswer<GeneratedLesson>(generatePrompt("Lessons", data));
+
+  createMaterials = async (data: CreateMaterialsGetChatCompletionAnswerInputDTO) => this.getAiModelAnswer<GeneratedMaterial>(generatePrompt("Materials", data));
   createTest = async (data: CreateTestGetChatCompletionAnswerInputDTO) =>
-    this.getAiModelAnswer(generatePrompt("Test", data));
+    this.getAiModelAnswer<GeneratedTest>(generatePrompt("Test", data));
 }

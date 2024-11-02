@@ -18,13 +18,14 @@ import {
   ChangeFullNameDto,
   ChangeNameDto,
   ChangePasswordDto,
+  ChangeTestsCompletedDto,
   UploadAvatarDto,
   UploadBannerDto,
 } from "./dto/users.dto";
 
 @Controller("users")
 export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) { }
 
   @UseGuards(JwtAuthGuard)
   @Get("/user/:id")
@@ -129,5 +130,16 @@ export class UsersController {
     @Res() res: Response
   ) {
     return this.usersService.changeBio(params, body, req, res);
+  }
+
+  @UseGuards(JwtAuthGuard)
+  @Patch("/:id/tests-completed")
+  changeTestsCompleted(
+    @Param() params: { id: string },
+    @Body() body: ChangeTestsCompletedDto,
+    @Req() req: Request,
+    @Res() res: Response
+  ) {
+    return this.usersService.changeTestsCompleted(params, body, req, res);
   }
 }

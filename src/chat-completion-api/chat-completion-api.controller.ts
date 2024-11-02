@@ -1,16 +1,16 @@
 import { Body, Controller, Post, ValidationPipe } from "@nestjs/common";
 import { ChatCompletionApiService } from "./chat-completion-api.service";
-import { GetChatCompletionAnswerInputDTO } from "./model/chat-completion-answer.dto";
+import { CreateTestGetChatCompletionAnswerInputDTO } from "./dto/chat-completion-answer.dto";
 
 @Controller("chat-completion-api")
 export class ChatCompletionApiController {
-  constructor(private readonly service: ChatCompletionApiService) {}
+  constructor(private readonly service: ChatCompletionApiService) { }
 
   @Post()
   getChatCompletionMessage(
     @Body(new ValidationPipe({ transform: true }))
-    data: GetChatCompletionAnswerInputDTO
+    data: CreateTestGetChatCompletionAnswerInputDTO
   ) {
-    return this.service.getAiModelAnswer(data);
+    return this.service.createTest(data);
   }
 }

@@ -3,13 +3,20 @@ import { IsNotEmpty, IsString } from "class-validator";
 export class CreateCourseDto {
   @IsNotEmpty()
   @IsString()
-  name: string;
+  courseLanguage: string;
 
   @IsNotEmpty()
   @IsString()
-  description: string;
+  nativeLanguage: string;
 
   @IsNotEmpty()
   @IsString()
-  avatarId: string;
+  languageLevel: string;
+
+  @IsString()
+  @IsNotEmpty()
+  userId: string
+
+  @IsString()
+  avatarId?: string;
 }
