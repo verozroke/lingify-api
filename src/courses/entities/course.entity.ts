@@ -19,9 +19,9 @@ export class Course {
 
   @IsNotEmpty()
   @IsDate()
-  createdAt: Date
+  createdAt: Date;
 
   @IsNotEmpty()
   @IsDate()
-  updatedAt: Date
+  updatedAt: Date;
 }

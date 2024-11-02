@@ -1,6 +1,6 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateMaterialDto } from './create-material.dto';
-import { IsNotEmpty, IsString, IsDate } from 'class-validator';
+import { PartialType } from "@nestjs/mapped-types";
+import { CreateMaterialDto } from "./create-material.dto";
+import { IsNotEmpty, IsString, IsDate } from "class-validator";
 
 export class UpdateMaterialDto extends PartialType(CreateMaterialDto) {
   @IsNotEmpty()
@@ -19,12 +19,11 @@ export class UpdateMaterialDto extends PartialType(CreateMaterialDto) {
   @IsString()
   lessonId: string;
 
+  @IsNotEmpty()
+  @IsDate()
+  createdAt: Date;
 
   @IsNotEmpty()
   @IsDate()
-  createdAt: Date
-
-  @IsNotEmpty()
-  @IsDate()
-  updatedAt: Date
+  updatedAt: Date;
 }

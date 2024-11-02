@@ -1,7 +1,7 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { ChatCompletionApiService } from './chat-completion-api.service';
+import { Test, TestingModule } from "@nestjs/testing";
+import { ChatCompletionApiService } from "./chat-completion-api.service";
 
-describe('ChatCompletionApiService', () => {
+describe("ChatCompletionApiService", () => {
   let service: ChatCompletionApiService;
 
   beforeEach(async () => {
@@ -12,7 +12,7 @@ describe('ChatCompletionApiService', () => {
     service = module.get<ChatCompletionApiService>(ChatCompletionApiService);
   });
 
-  it('should be defined', () => {
+  it("should be defined", () => {
     expect(service).toBeDefined();
   });
 });

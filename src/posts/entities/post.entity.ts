@@ -1,32 +1,31 @@
-import { IsNotEmpty, IsString, IsDate } from "class-validator"
+import { IsNotEmpty, IsString, IsDate } from "class-validator";
 
 export class Post {
   @IsNotEmpty()
   @IsString()
-  id: string
-
-
-  @IsNotEmpty()
-  @IsString()
-  title: string
+  id: string;
 
   @IsNotEmpty()
   @IsString()
-  text: string
+  title: string;
 
   @IsNotEmpty()
   @IsString()
-  ownerId: string
+  text: string;
 
   @IsNotEmpty()
   @IsString()
-  communityId: string
+  ownerId: string;
+
+  @IsNotEmpty()
+  @IsString()
+  communityId: string;
 
   @IsNotEmpty()
   @IsDate()
-  createdAt: Date
+  createdAt: Date;
 
   @IsNotEmpty()
   @IsDate()
-  updatedAt: Date
+  updatedAt: Date;
 }

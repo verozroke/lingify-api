@@ -5,9 +5,9 @@ export class CreateCardSetDto {
   @IsString()
   name: string;
   @IsString()
-  description?: string
+  description?: string;
 
   @IsNotEmpty()
   @IsString()
-  ownerId: string
+  ownerId: string;
 }

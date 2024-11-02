@@ -1,21 +1,28 @@
-import { CreateLessonsGetChatCompletionAnswerInputDTO, CreateMaterialsGetChatCompletionAnswerInputDTO, CreateTestGetChatCompletionAnswerInputDTO } from "src/chat-completion-api/dto/chat-completion-answer.dto"
+import {
+  CreateLessonsGetChatCompletionAnswerInputDTO,
+  CreateMaterialsGetChatCompletionAnswerInputDTO,
+  CreateTestGetChatCompletionAnswerInputDTO,
+} from "src/chat-completion-api/dto/chat-completion-answer.dto";
 
 export type PromptBody =
-  CreateLessonsGetChatCompletionAnswerInputDTO
+  | CreateLessonsGetChatCompletionAnswerInputDTO
   | CreateMaterialsGetChatCompletionAnswerInputDTO
   | CreateTestGetChatCompletionAnswerInputDTO;
 
-
 const propmts = {
-  'Lessons': generateLessons,
-  'Materials': generateMaterials,
-  'Test': generateTest,
-}
+  Lessons: generateLessons,
+  Materials: generateMaterials,
+  Test: generateTest,
+};
 
-export const generatePrompt = (modelName: string, data: PromptBody) => propmts[modelName](data)
+export const generatePrompt = (modelName: string, data: PromptBody) =>
+  propmts[modelName](data);
 
-
-export function generateLessons({ courseLanguage, languageLevel, nativeLanguage }: CreateLessonsGetChatCompletionAnswerInputDTO): string {
+export function generateLessons({
+  courseLanguage,
+  languageLevel,
+  nativeLanguage,
+}: CreateLessonsGetChatCompletionAnswerInputDTO): string {
   return `
     You need to create 5 lessons based on the information that i will provide you. 
     My app is language-learning system and you need to generate me this array based on Course language: ${courseLanguage}, 
@@ -34,11 +41,16 @@ export function generateLessons({ courseLanguage, languageLevel, nativeLanguage 
     DESCRIPTION MUST BE THE TEXT EXPLAINING THE TOPIC OF THE LESSON. 10-20 words
     FIELD NAMES MUST BE VALID TO JSON AND HAVE DOUBLE-QUOTES
     ADD BACKSLASHES IN FROM OF DOUBLE QUOTES AND SINGLE QOUTES INSIDE THE VALUE OF THE KEY
-  `
+  `;
 }
 
-
-export function generateMaterials({ courseName, keyWords, lessonDescription, lessonsName, nativeLanguage }: CreateMaterialsGetChatCompletionAnswerInputDTO): string {
+export function generateMaterials({
+  courseName,
+  keyWords,
+  lessonDescription,
+  lessonsName,
+  nativeLanguage,
+}: CreateMaterialsGetChatCompletionAnswerInputDTO): string {
   return `
     You need to create 5 materials based on the information that i will provide you. 
 
@@ -59,11 +71,17 @@ export function generateMaterials({ courseName, keyWords, lessonDescription, les
     DESCRIPTION MUST BE THE TEXT EXPLAINING THE TOPIC OF THE MATERIAL. MINIMUM 200 words on description
     FIELD NAMES MUST BE VALID TO JSON AND HAVE DOUBLE-QUOTES
     ADD BACKSLASHES IN FROM OF DOUBLE QUOTES AND SINGLE QOUTES INSIDE THE VALUE OF THE KEY
-  `
+  `;
 }
 
-
-export function generateTest({ courseName, lessonName, lessonDescription, nativeLanguage, keyWords, userInfo }: CreateTestGetChatCompletionAnswerInputDTO): string {
+export function generateTest({
+  courseName,
+  lessonName,
+  lessonDescription,
+  nativeLanguage,
+  keyWords,
+  userInfo,
+}: CreateTestGetChatCompletionAnswerInputDTO): string {
   return `
       You need to create 5 questions for the quiz based on the information that i will provide you. 
       My app is language-learning system and you need to generate me this array based on Course name: ${courseName}, 
@@ -89,5 +107,5 @@ export function generateTest({ courseName, lessonName, lessonDescription, native
       correctAnswer MUST BE A LETTER
       selectedVariant IS ALWAYS EMPTY STRING
       FIELD NAMES MUST BE VALID TO JSON AND HAVE DOUBLE-QUOTES
-  `
+  `;
 }

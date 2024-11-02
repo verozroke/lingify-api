@@ -1,31 +1,31 @@
-import { IsDate, IsNotEmpty, IsString } from "class-validator"
+import { IsDate, IsNotEmpty, IsString } from "class-validator";
 
 export class Card {
   @IsNotEmpty()
   @IsString()
-  id: string
+  id: string;
 
   @IsNotEmpty()
   @IsString()
-  word: string
+  word: string;
 
   @IsNotEmpty()
   @IsString()
-  definition: string
+  definition: string;
 
   @IsNotEmpty()
   @IsString()
-  cardSetId: string
+  cardSetId: string;
 
   @IsNotEmpty()
   @IsString()
-  imageId: string
+  imageId: string;
 
   @IsNotEmpty()
   @IsDate()
-  createdAt: Date
+  createdAt: Date;
 
   @IsNotEmpty()
   @IsDate()
-  updatedAt: Date
+  updatedAt: Date;
 }

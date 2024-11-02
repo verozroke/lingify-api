@@ -1,8 +1,8 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { CommunitiesController } from './communities.controller';
-import { CommunitiesService } from './communities.service';
+import { Test, TestingModule } from "@nestjs/testing";
+import { CommunitiesController } from "./communities.controller";
+import { CommunitiesService } from "./communities.service";
 
-describe('CommunitiesController', () => {
+describe("CommunitiesController", () => {
   let controller: CommunitiesController;
 
   beforeEach(async () => {
@@ -14,7 +14,7 @@ describe('CommunitiesController', () => {
     controller = module.get<CommunitiesController>(CommunitiesController);
   });
 
-  it('should be defined', () => {
+  it("should be defined", () => {
     expect(controller).toBeDefined();
   });
 });

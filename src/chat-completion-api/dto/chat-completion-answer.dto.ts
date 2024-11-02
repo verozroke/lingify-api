@@ -1,73 +1,67 @@
 import { IsNotEmpty, IsString } from "class-validator";
 
-
 export class CreateLessonsGetChatCompletionAnswerInputDTO {
   @IsString()
   @IsNotEmpty()
-  courseLanguage: string
+  courseLanguage: string;
   @IsString()
   @IsNotEmpty()
-  nativeLanguage: string
+  nativeLanguage: string;
   @IsString()
   @IsNotEmpty()
-  languageLevel: string
+  languageLevel: string;
 }
 
 export class CreateMaterialsGetChatCompletionAnswerInputDTO {
   @IsString()
   @IsNotEmpty()
-  courseName: string
+  courseName: string;
   @IsString()
   @IsNotEmpty()
-  nativeLanguage: string
+  nativeLanguage: string;
   @IsString()
   @IsNotEmpty()
-  lessonsName: string
+  lessonsName: string;
   @IsString()
   @IsNotEmpty()
-  lessonDescription: string
+  lessonDescription: string;
   @IsString()
   @IsNotEmpty()
-  keyWords: string
+  keyWords: string;
 }
-
 
 export class CreateTestGetChatCompletionAnswerInputDTO {
   @IsString()
   @IsNotEmpty()
-  lessonName: string
+  lessonName: string;
   @IsString()
   @IsNotEmpty()
-  lessonDescription: string
+  lessonDescription: string;
   @IsString()
   @IsNotEmpty()
-  keyWords: string
+  keyWords: string;
 
   @IsString()
   @IsNotEmpty()
-  courseName: string
+  courseName: string;
 
   @IsString()
   @IsNotEmpty()
-  nativeLanguage: string
+  nativeLanguage: string;
 
   @IsString()
   @IsNotEmpty()
-  userInfo: string
+  userInfo: string;
 }
-
-
-
-
 
 export class GetChatCompletionAnswerOutputDTO {
   @IsString()
   @IsNotEmpty()
-  aiMessage: string
+  aiMessage: string;
 
   static getInstance(aiMessage: string) {
     const result = new GetChatCompletionAnswerOutputDTO();
     result.aiMessage = aiMessage;
-    return result
+    return result;
   }
 }

@@ -1,11 +1,11 @@
-import { IsNotEmpty, IsString } from "class-validator"
+import { IsNotEmpty, IsString } from "class-validator";
 
 export class SubCommunityDto {
   @IsNotEmpty()
   @IsString()
-  communityId: string
+  communityId: string;
 
   @IsNotEmpty()
   @IsString()
-  userId: string
+  userId: string;
 }

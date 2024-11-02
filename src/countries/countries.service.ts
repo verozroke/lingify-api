@@ -1,16 +1,20 @@
-import { BadRequestException, Injectable } from '@nestjs/common';
-import { CreateCountryDto } from './dto/create-country.dto';
-import { UpdateCountryDto } from './dto/update-country.dto';
-import { Request, Response } from 'express';
-import { PrismaService } from 'prisma/prisma.service'; // Adjust the import path as necessary
+import { BadRequestException, Injectable } from "@nestjs/common";
+import { CreateCountryDto } from "./dto/create-country.dto";
+import { UpdateCountryDto } from "./dto/update-country.dto";
+import { Request, Response } from "express";
+import { PrismaService } from "prisma/prisma.service"; // Adjust the import path as necessary
 
 @Injectable()
 export class CountriesService {
-  constructor(private prisma: PrismaService) { }
+  constructor(private prisma: PrismaService) {}
 
-  async create(req: Request, res: Response, createCountryDto: CreateCountryDto) {
+  async create(
+    req: Request,
+    res: Response,
+    createCountryDto: CreateCountryDto
+  ) {
     const country = await this.prisma.country.create({
-      data: createCountryDto
+      data: createCountryDto,
     });
 
     return res.send(JSON.stringify(country));
@@ -23,20 +27,25 @@ export class CountriesService {
 
   async findOne(req: Request, res: Response, id: string) {
     const country = await this.prisma.country.findUnique({
-      where: { id }
+      where: { id },
     });
 
     if (!country) {
-      throw new BadRequestException('Country not found');
+      throw new BadRequestException("Country not found");
     }
 
     return res.send(JSON.stringify(country));
   }
 
-  async update(req: Request, res: Response, id: string, updateCountryDto: UpdateCountryDto) {
+  async update(
+    req: Request,
+    res: Response,
+    id: string,
+    updateCountryDto: UpdateCountryDto
+  ) {
     const country = await this.prisma.country.update({
       where: { id },
-      data: updateCountryDto
+      data: updateCountryDto,
     });
 
     return res.send(JSON.stringify(country));
@@ -44,9 +53,9 @@ export class CountriesService {
 
   async remove(req: Request, res: Response, id: string) {
     await this.prisma.country.delete({
-      where: { id }
+      where: { id },
     });
 
-    return res.send({ message: 'Country successfully deleted' });
+    return res.send({ message: "Country successfully deleted" });
   }
 }

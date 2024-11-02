@@ -4,59 +4,59 @@ export class UploadAvatarDto {
   @IsNotEmpty()
   @IsString()
   @IsUrl()
-  avatarUrl: string
+  avatarUrl: string;
 }
 
 export class UploadBannerDto {
   @IsNotEmpty()
   @IsString()
   @IsUrl()
-  bannerUrl: string
-
+  bannerUrl: string;
 }
-
 
 export class ChangeEmailDto {
   @IsNotEmpty()
   @IsString()
   @IsEmail()
-  email: string
+  email: string;
 }
 
 export class ChangeNameDto {
   @IsNotEmpty()
   @IsString()
-  nickname: string
+  nickname: string;
 }
-
 
 export class ChangeCountryDto {
   @IsNotEmpty()
   @IsString()
-  country: string
+  country: string;
 }
-
 
 export class ChangeFullNameDto {
   @IsNotEmpty()
   @IsString()
-  fullName: string
+  fullName: string;
 }
 
 export class ChangeBioDto {
   @IsNotEmpty()
   @IsString()
-  bio: string
+  bio: string;
 }
 
 export class ChangePasswordDto {
   @IsNotEmpty()
   @IsString()
-  @Length(8, 20, { message: 'Password has to be at beetween 8 and 20 characters' })
-  oldPassword: string
+  @Length(8, 20, {
+    message: "Password has to be at beetween 8 and 20 characters",
+  })
+  oldPassword: string;
 
   @IsNotEmpty()
   @IsString()
-  @Length(8, 20, { message: 'Password has to be at beetween 8 and 20 characters' })
-  newPassword: string
+  @Length(8, 20, {
+    message: "Password has to be at beetween 8 and 20 characters",
+  })
+  newPassword: string;
 }

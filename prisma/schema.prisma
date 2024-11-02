@@ -32,17 +32,17 @@ model User {
 }
 
 model Course {
-  id          String   @unique @default(uuid())
-  name        String   @unique
-  description String
-  nativeLanguage String 
-  avatarId    String   @unique
-  userId      String
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  avatar      Image    @relation("CourseAvatarToImage", fields: [avatarId], references: [id])
-  User        User     @relation(fields: [userId], references: [id])
-  lessons     Lesson[] @relation("LessonToUser")
+  id             String   @unique @default(uuid())
+  name           String   @unique
+  description    String
+  nativeLanguage String
+  avatarId       String   @unique
+  userId         String
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  avatar         Image    @relation("CourseAvatarToImage", fields: [avatarId], references: [id])
+  User           User     @relation(fields: [userId], references: [id])
+  lessons        Lesson[] @relation("LessonToUser")
 }
 
 model Lesson {
@@ -58,13 +58,13 @@ model Lesson {
 }
 
 model Material {
-  id        String   @unique @default(uuid())
+  id          String   @unique @default(uuid())
   name        String
   description String
-  lessonId  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  lesson    Lesson   @relation("MaterialToLesson", fields: [lessonId], references: [id])
+  lessonId    String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  lesson      Lesson   @relation("MaterialToLesson", fields: [lessonId], references: [id])
 }
 
 model CardSet {

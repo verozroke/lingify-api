@@ -1,27 +1,27 @@
-import { IsNotEmpty, IsString, IsDate } from "class-validator"
+import { IsNotEmpty, IsString, IsDate } from "class-validator";
 
 export class Comment {
   @IsNotEmpty()
   @IsString()
-  id: string
+  id: string;
 
   @IsNotEmpty()
   @IsString()
-  text: string
+  text: string;
 
   @IsNotEmpty()
   @IsString()
-  ownerId: string
+  ownerId: string;
 
   @IsNotEmpty()
   @IsString()
-  postId: string
+  postId: string;
 
   @IsNotEmpty()
   @IsDate()
-  createdAt: Date
+  createdAt: Date;
 
   @IsNotEmpty()
   @IsDate()
-  updatedAt: Date
+  updatedAt: Date;
 }

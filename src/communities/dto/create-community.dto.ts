@@ -1,31 +1,30 @@
-import { IsNotEmpty, IsString } from "class-validator"
+import { IsNotEmpty, IsString } from "class-validator";
 
 export class CreateCommunityDto {
   @IsNotEmpty()
   @IsString()
-  name: string
+  name: string;
 
   @IsNotEmpty()
   @IsString()
-  language: string
+  language: string;
 
   @IsString()
-  description?: string
+  description?: string;
 
   @IsNotEmpty()
   @IsString()
-  ownerId: string
+  ownerId: string;
 
   @IsNotEmpty()
   @IsString()
-  avatarUrl: string
+  avatarUrl: string;
 
   @IsNotEmpty()
   @IsString()
-  bannerUrl: string
+  bannerUrl: string;
 
   @IsNotEmpty()
   @IsString()
-  countryName: string
-
+  countryName: string;
 }

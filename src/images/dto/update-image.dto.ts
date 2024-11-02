@@ -1,20 +1,20 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateImageDto } from './create-image.dto';
-import { IsNotEmpty, IsString, IsDate } from 'class-validator';
+import { PartialType } from "@nestjs/mapped-types";
+import { CreateImageDto } from "./create-image.dto";
+import { IsNotEmpty, IsString, IsDate } from "class-validator";
 
 export class UpdateImageDto extends PartialType(CreateImageDto) {
   @IsNotEmpty()
   @IsString()
-  id: string
+  id: string;
   @IsNotEmpty()
   @IsString()
-  url: string
+  url: string;
 
   @IsNotEmpty()
   @IsDate()
-  createdAt: Date
+  createdAt: Date;
 
   @IsNotEmpty()
   @IsDate()
-  updatedAt: Date
+  updatedAt: Date;
 }

@@ -1,35 +1,33 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreatePostDto } from './create-post.dto';
-import { IsNotEmpty, IsString, IsDate } from 'class-validator';
+import { PartialType } from "@nestjs/mapped-types";
+import { CreatePostDto } from "./create-post.dto";
+import { IsNotEmpty, IsString, IsDate } from "class-validator";
 
 export class UpdatePostDto extends PartialType(CreatePostDto) {
+  @IsNotEmpty()
+  @IsString()
+  id: string;
 
   @IsNotEmpty()
   @IsString()
-  id: string
-
-
-  @IsNotEmpty()
-  @IsString()
-  title: string
+  title: string;
 
   @IsNotEmpty()
   @IsString()
-  text: string
+  text: string;
 
   @IsNotEmpty()
   @IsString()
-  ownerId: string
+  ownerId: string;
 
   @IsNotEmpty()
   @IsString()
-  communityId: string
+  communityId: string;
 
   @IsNotEmpty()
   @IsDate()
-  createdAt: Date
+  createdAt: Date;
 
   @IsNotEmpty()
   @IsDate()
-  updatedAt: Date
+  updatedAt: Date;
 }

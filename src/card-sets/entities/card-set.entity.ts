@@ -1,24 +1,24 @@
-import { IsDate, IsNotEmpty, IsString } from "class-validator"
+import { IsDate, IsNotEmpty, IsString } from "class-validator";
 
 export class CardSet {
   @IsNotEmpty()
   @IsString()
-  id: string
+  id: string;
 
   @IsNotEmpty()
   @IsString()
-  name: string
+  name: string;
 
   @IsString()
-  description?: string
+  description?: string;
 
   @IsNotEmpty()
   @IsString()
-  ownerId: string
+  ownerId: string;
 
   @IsDate()
-  createdAt: Date
+  createdAt: Date;
 
   @IsDate()
-  updatedAt: Date
+  updatedAt: Date;
 }

@@ -1,29 +1,29 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateCardDto } from './create-card.dto';
-import { IsNotEmpty, IsString, IsDate } from 'class-validator';
+import { PartialType } from "@nestjs/mapped-types";
+import { CreateCardDto } from "./create-card.dto";
+import { IsNotEmpty, IsString, IsDate } from "class-validator";
 
 export class UpdateCardDto extends PartialType(CreateCardDto) {
   @IsNotEmpty()
   @IsString()
-  id: string
+  id: string;
 
   @IsNotEmpty()
   @IsString()
-  word: string
+  word: string;
 
   @IsNotEmpty()
   @IsString()
-  definition: string
+  definition: string;
 
   @IsNotEmpty()
   @IsString()
-  cardSetId: string
+  cardSetId: string;
 
   @IsNotEmpty()
   @IsDate()
-  createdAt: Date
+  createdAt: Date;
 
   @IsNotEmpty()
   @IsDate()
-  updatedAt: Date
+  updatedAt: Date;
 }

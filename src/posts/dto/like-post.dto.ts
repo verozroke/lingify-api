@@ -1,12 +1,11 @@
-import { IsNotEmpty, IsString } from "class-validator"
-
+import { IsNotEmpty, IsString } from "class-validator";
 
 export class LikePostDto {
   @IsNotEmpty()
   @IsString()
-  userId: string
+  userId: string;
 
   @IsNotEmpty()
   @IsString()
-  postId: string
+  postId: string;
 }

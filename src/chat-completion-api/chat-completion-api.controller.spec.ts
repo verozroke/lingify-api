@@ -1,7 +1,7 @@
-import { Test, TestingModule } from '@nestjs/testing';
-import { ChatCompletionApiController } from './chat-completion-api.controller';
+import { Test, TestingModule } from "@nestjs/testing";
+import { ChatCompletionApiController } from "./chat-completion-api.controller";
 
-describe('ChatCompletionApiController', () => {
+describe("ChatCompletionApiController", () => {
   let controller: ChatCompletionApiController;
 
   beforeEach(async () => {
@@ -9,10 +9,12 @@ describe('ChatCompletionApiController', () => {
       controllers: [ChatCompletionApiController],
     }).compile();
 
-    controller = module.get<ChatCompletionApiController>(ChatCompletionApiController);
+    controller = module.get<ChatCompletionApiController>(
+      ChatCompletionApiController
+    );
   });
 
-  it('should be defined', () => {
+  it("should be defined", () => {
     expect(controller).toBeDefined();
   });
 });

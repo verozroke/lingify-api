@@ -1,23 +1,23 @@
-import { IsNotEmpty, IsString, IsDate } from "class-validator"
+import { IsNotEmpty, IsString, IsDate } from "class-validator";
 
 export class Like {
   @IsNotEmpty()
   @IsString()
-  id: string
+  id: string;
 
   @IsNotEmpty()
   @IsString()
-  userId: string
+  userId: string;
 
   @IsNotEmpty()
   @IsString()
-  postId: string
+  postId: string;
 
   @IsNotEmpty()
   @IsDate()
-  createdAt: Date
+  createdAt: Date;
 
   @IsNotEmpty()
   @IsDate()
-  updatedAt: Date
+  updatedAt: Date;
 }

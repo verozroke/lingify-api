@@ -1,42 +1,42 @@
-import { IsNotEmpty, IsString, IsDate } from "class-validator"
+import { IsNotEmpty, IsString, IsDate } from "class-validator";
 
 export class Community {
   @IsNotEmpty()
   @IsString()
-  id: string
+  id: string;
 
   @IsNotEmpty()
   @IsString()
-  name: string
+  name: string;
 
   @IsNotEmpty()
   @IsString()
-  language: string
+  language: string;
 
   @IsString()
-  description?: string
-
-  @IsNotEmpty()
-  @IsString()
-  ownerId: string
+  description?: string;
 
   @IsNotEmpty()
   @IsString()
-  avatarId: string
+  ownerId: string;
 
   @IsNotEmpty()
   @IsString()
-  bannerId: string
+  avatarId: string;
 
   @IsNotEmpty()
   @IsString()
-  countryId: string
+  bannerId: string;
+
+  @IsNotEmpty()
+  @IsString()
+  countryId: string;
 
   @IsNotEmpty()
   @IsDate()
-  createdAt: Date
+  createdAt: Date;
 
   @IsNotEmpty()
   @IsDate()
-  updatedAt: Date
+  updatedAt: Date;
 }

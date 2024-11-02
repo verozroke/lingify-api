@@ -1,25 +1,25 @@
-import { PartialType } from '@nestjs/mapped-types';
-import { CreateLikeDto } from './create-like.dto';
-import { IsDate, IsNotEmpty, IsString } from 'class-validator';
+import { PartialType } from "@nestjs/mapped-types";
+import { CreateLikeDto } from "./create-like.dto";
+import { IsDate, IsNotEmpty, IsString } from "class-validator";
 
 export class UpdateLikeDto extends PartialType(CreateLikeDto) {
   @IsNotEmpty()
   @IsString()
-  id: string
+  id: string;
 
   @IsNotEmpty()
   @IsString()
-  userId: string
+  userId: string;
 
   @IsNotEmpty()
   @IsString()
-  postId: string
+  postId: string;
 
   @IsNotEmpty()
   @IsDate()
-  createdAt: Date
+  createdAt: Date;
 
   @IsNotEmpty()
   @IsDate()
-  updatedAt: Date
+  updatedAt: Date;
 }
