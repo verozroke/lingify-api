@@ -76,7 +76,21 @@ export class CoursesService {
       });
     });
 
-    return res.send(JSON.stringify(course));
+    const newCourse = await this.prisma.course.findUnique({
+      where: {
+        id: course.id
+      },
+      include: {
+        lessons: {
+          include: {
+            materials: true
+          }
+        }
+      }
+    })
+
+
+    return res.send(JSON.stringify(newCourse));
   }
 
   async findAll(req: Request, res: Response, userId: string) {
@@ -118,6 +132,7 @@ export class CoursesService {
     if (!course) {
       throw new BadRequestException("Course not found");
     }
+
 
     return res.send(JSON.stringify(course));
   }
