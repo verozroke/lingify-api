@@ -17,7 +17,7 @@ import { Request, Response } from "express";
 
 @Controller("courses")
 export class CoursesController {
-  constructor(private readonly coursesService: CoursesService) { }
+  constructor(private readonly coursesService: CoursesService) {}
 
   @Post()
   create(
@@ -29,7 +29,11 @@ export class CoursesController {
   }
 
   @Get()
-  findAll(@Req() req: Request, @Res() res: Response, @Query('user_id') userId: string,) {
+  findAll(
+    @Req() req: Request,
+    @Res() res: Response,
+    @Query("user_id") userId: string
+  ) {
     return this.coursesService.findAll(req, res, userId);
   }
 

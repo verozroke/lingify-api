@@ -14,18 +14,17 @@ export class CoursesService {
   constructor(
     private prisma: PrismaService,
     private chatAPI: ChatCompletionApiService
-  ) { }
+  ) {}
 
   async create(req: Request, res: Response, payload: CreateCourseDto) {
     const { courseLanguage, languageLevel, nativeLanguage, avatarUrl, userId } =
       payload;
 
-
     const avatar = await this.prisma.image.create({
       data: {
-        url: avatarUrl
-      }
-    })
+        url: avatarUrl,
+      },
+    });
 
     const course = await this.prisma.course.create({
       data: {
@@ -78,17 +77,16 @@ export class CoursesService {
 
     const newCourse = await this.prisma.course.findUnique({
       where: {
-        id: course.id
+        id: course.id,
       },
       include: {
         lessons: {
           include: {
-            materials: true
-          }
-        }
-      }
-    })
-
+            materials: true,
+          },
+        },
+      },
+    });
 
     return res.send(JSON.stringify(newCourse));
   }
@@ -104,14 +102,13 @@ export class CoursesService {
       throw new BadRequestException("No user found for id: " + userId);
     }
 
-
     const courses = await this.prisma.course.findMany({
       where: {
         userId,
       },
       include: {
-        avatar: true
-      }
+        avatar: true,
+      },
     });
     return res.send(JSON.stringify(courses));
   }
@@ -132,7 +129,6 @@ export class CoursesService {
     if (!course) {
       throw new BadRequestException("Course not found");
     }
-
 
     return res.send(JSON.stringify(course));
   }
