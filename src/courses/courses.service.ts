@@ -8,13 +8,14 @@ import {
   CreateLessonsGetChatCompletionAnswerInputDTO,
   CreateMaterialsGetChatCompletionAnswerInputDTO,
 } from "src/chat-completion-api/dto/chat-completion-answer.dto";
+import { CreateCourseAsTeacherDto } from "./dto/create-course-as-teacher.dto";
 
 @Injectable()
 export class CoursesService {
   constructor(
     private prisma: PrismaService,
     private chatAPI: ChatCompletionApiService
-  ) {}
+  ) { }
 
   async create(req: Request, res: Response, payload: CreateCourseDto) {
     const { courseLanguage, languageLevel, nativeLanguage, avatarUrl, userId } =
@@ -72,6 +73,63 @@ export class CoursesService {
             lessonId: lesson.id,
           },
         });
+      });
+    });
+
+    const newCourse = await this.prisma.course.findUnique({
+      where: {
+        id: course.id,
+      },
+      include: {
+        lessons: {
+          include: {
+            materials: true,
+          },
+        },
+      },
+    });
+
+    return res.send(JSON.stringify(newCourse));
+  }
+
+  async createAsTeacher(req: Request, res: Response, payload: CreateCourseAsTeacherDto) {
+    const { courseLanguage, languageLevel, nativeLanguage, avatarUrl, userId, lessons, description } =
+      payload;
+
+    const avatar = await this.prisma.image.create({
+      data: {
+        url: avatarUrl,
+      },
+    });
+
+    const course = await this.prisma.course.create({
+      data: {
+        name: `${courseLanguage} (${languageLevel})`,
+        nativeLanguage,
+        description,
+        avatarId: avatar.id,
+        userId,
+      },
+    });
+
+
+    lessons.forEach(async ({ name, keyWords, description, materialName, materialText }) => {
+      const lesson = await this.prisma.lesson.create({
+        data: {
+          name,
+          keyWords,
+          description,
+          courseId: course.id,
+        },
+      });
+
+
+      await this.prisma.material.create({
+        data: {
+          name: materialName,
+          description: materialText,
+          lessonId: lesson.id,
+        },
       });
     });
 
