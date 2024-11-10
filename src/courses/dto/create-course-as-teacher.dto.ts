@@ -1,13 +1,12 @@
 import { IsNotEmpty, IsString, IsUrl } from "class-validator";
 
 export type LessonInput = {
-  name: string
-  description: string
-  keyWords: string
-  materialName: string
-  materialText: string
-}
-
+  name: string;
+  description: string;
+  keyWords: string;
+  materialName: string;
+  materialText: string;
+};
 
 export class CreateCourseAsTeacherDto {
   @IsNotEmpty()
@@ -34,7 +33,6 @@ export class CreateCourseAsTeacherDto {
   @IsNotEmpty()
   avatarUrl: string;
 
-
   @IsNotEmpty()
-  lessons: LessonInput[]
+  lessons: LessonInput[];
 }

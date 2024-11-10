@@ -15,7 +15,7 @@ export class CoursesService {
   constructor(
     private prisma: PrismaService,
     private chatAPI: ChatCompletionApiService
-  ) { }
+  ) {}
 
   async create(req: Request, res: Response, payload: CreateCourseDto) {
     const { courseLanguage, languageLevel, nativeLanguage, avatarUrl, userId } =
@@ -92,9 +92,20 @@ export class CoursesService {
     return res.send(JSON.stringify(newCourse));
   }
 
-  async createAsTeacher(req: Request, res: Response, payload: CreateCourseAsTeacherDto) {
-    const { courseLanguage, languageLevel, nativeLanguage, avatarUrl, userId, lessons, description } =
-      payload;
+  async createAsTeacher(
+    req: Request,
+    res: Response,
+    payload: CreateCourseAsTeacherDto
+  ) {
+    const {
+      courseLanguage,
+      languageLevel,
+      nativeLanguage,
+      avatarUrl,
+      userId,
+      lessons,
+      description,
+    } = payload;
 
     const avatar = await this.prisma.image.create({
       data: {
@@ -112,26 +123,26 @@ export class CoursesService {
       },
     });
 
+    lessons.forEach(
+      async ({ name, keyWords, description, materialName, materialText }) => {
+        const lesson = await this.prisma.lesson.create({
+          data: {
+            name,
+            keyWords,
+            description,
+            courseId: course.id,
+          },
+        });
 
-    lessons.forEach(async ({ name, keyWords, description, materialName, materialText }) => {
-      const lesson = await this.prisma.lesson.create({
-        data: {
-          name,
-          keyWords,
-          description,
-          courseId: course.id,
-        },
-      });
-
-
-      await this.prisma.material.create({
-        data: {
-          name: materialName,
-          description: materialText,
-          lessonId: lesson.id,
-        },
-      });
-    });
+        await this.prisma.material.create({
+          data: {
+            name: materialName,
+            description: materialText,
+            lessonId: lesson.id,
+          },
+        });
+      }
+    );
 
     const newCourse = await this.prisma.course.findUnique({
       where: {

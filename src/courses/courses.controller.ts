@@ -18,7 +18,7 @@ import { CreateCourseAsTeacherDto } from "./dto/create-course-as-teacher.dto";
 
 @Controller("courses")
 export class CoursesController {
-  constructor(private readonly coursesService: CoursesService) { }
+  constructor(private readonly coursesService: CoursesService) {}
 
   @Post()
   create(
@@ -29,15 +29,18 @@ export class CoursesController {
     return this.coursesService.create(req, res, createCourseDto);
   }
 
-  @Post('/as-teacher')
+  @Post("/as-teacher")
   createAsTeacher(
     @Req() req: Request,
     @Res() res: Response,
     @Body() createCourseAsTeacherDto: CreateCourseAsTeacherDto
   ) {
-    return this.coursesService.createAsTeacher(req, res, createCourseAsTeacherDto);
+    return this.coursesService.createAsTeacher(
+      req,
+      res,
+      createCourseAsTeacherDto
+    );
   }
-
 
   @Get()
   findAll(
