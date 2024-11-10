@@ -9,3 +9,4 @@ Steps:
 
 URL: http://localhost:4000/
 URL for Swagger UI API documentation: http://localhost:4000/api
+URL to the client repository: https://github.com/verozroke/lingify
