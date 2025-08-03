@@ -2,7 +2,7 @@ import { BadRequestException, Injectable } from "@nestjs/common";
 import { CreateLikeDto } from "./dto/create-like.dto";
 import { UpdateLikeDto } from "./dto/update-like.dto";
 import { Request, Response } from "express";
-import { PrismaService } from "prisma/prisma.service"; // Adjust the import path as necessary
+import { PrismaService } from "prisma/prisma.service";
 
 @Injectable()
 export class LikesService {
