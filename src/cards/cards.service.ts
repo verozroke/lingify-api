@@ -42,7 +42,7 @@ export class CardsService {
 
     if (!isUserOwnsCardSet) {
       throw new BadRequestException(
-        "You can't update a card set that you does not own"
+        "You can't update a card set that you do not own"
       );
     }
 
