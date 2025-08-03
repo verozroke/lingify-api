@@ -282,6 +282,10 @@ export class UsersService {
       },
     });
 
+    if (!foundCountry) {
+      throw new BadRequestException("Country not found");
+    }
+
     await this.prisma.user.update({
       where: {
         id,
